@@ -2,13 +2,13 @@
   "name": "instagram-desktop",
   "version": "1.0.0",
   "description": "Open Source Instagram Desktop App with Electron and TypeScript",
-  "main": "src/index.ts",
+  "main": "dist/index.js",
   "scripts": {
     "dev": "nodemon --watch 'src/**/*.ts' --exec \"tsc && electron ./dist/index.js\"",
     "build": "tsc && electron-builder",
-    "deploy:osx": "electron-builder --mac",
-    "deploy:win": "electron-builder --win",
-    "deploy:linux": "electron-builder --linux"
+    "deploy:osx": "tsc && electron-builder --mac",
+    "deploy:win": "tsc && electron-builder --win",
+    "deploy:linux": "tsc && electron-builder --linux"
   },
   "keywords": [
     "instagram",
@@ -43,6 +43,7 @@
       ]
     },
     "win": {
+      "icon": "./asset/instagram.ico",
       "target": [
         {
           "target": "nsis",
@@ -51,6 +52,11 @@
           ]
         }
       ]
+    },
+    "nsis": {
+      "installerIcon": "./asset/instagram.ico",
+      "uninstallerIcon": "./asset/instagram.ico",
+      "uninstallDisplayName": "Instagram Desktop"
     },
     "linux": {
       "target": [
@@ -65,7 +71,7 @@
     },
     "directories": {
       "buildResources": "./resources/installer/",
-      "output": "./dist/",
+      "output": "./deploy/",
       "app": "."
     }
   },
