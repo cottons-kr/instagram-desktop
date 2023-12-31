@@ -56,7 +56,7 @@ function load(mainWindow: BrowserWindow) {
 
   mainWindow.on('close', e => {
     e.preventDefault()
-    mainWindow?.hide()
+    mainWindow.hide()
   })
 }
 

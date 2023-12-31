@@ -1,5 +1,5 @@
 import { Menu, Tray } from 'electron'
-import { iconPath } from '.'
+import { iconPath, isDev } from '.'
 
 export let tray = new Tray(iconPath)
 
@@ -13,7 +13,7 @@ const contextMenu = Menu.buildFromTemplate([
   { label: '      Quit      ', click: () => process.exit(0) },
 ])
 
-tray.setToolTip('Instagram')
+tray.setToolTip(isDev ? 'Instagram (DEV)' : 'Instagram')
 tray.setContextMenu(contextMenu)
 
 tray.on('click', showWindow)
