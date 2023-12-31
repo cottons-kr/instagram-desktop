@@ -18,3 +18,9 @@ app.on('new-window-for-tab', e => {
 })
 
 app.setAppUserModelId('kr.cottons.instagram-desktop')
+
+app.setLoginItemSettings({
+  openAtLogin: true,
+  openAsHidden: true,
+  path: app.getPath('exe')
+})
