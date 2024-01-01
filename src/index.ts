@@ -1,7 +1,6 @@
 import { app } from 'electron'
 import * as path from 'path'
 import 'dotenv/config'
-import { mainWindow } from './window'
 
 export const iconPath = path.join(__dirname, '../asset/instagram.png')
 export const preloadScriptPath = path.join(__dirname, '../asset/preload.js')
@@ -12,7 +11,8 @@ const gotTheLock = app.requestSingleInstanceLock()
 if (!gotTheLock) {
   app.quit()
 } else {
-  app.on('second-instance', () => {
+  app.on('second-instance', async () => {
+    const { mainWindow } = await import('./window.js')
     if (mainWindow) {
       if (mainWindow.isMinimized()) mainWindow.restore()
       mainWindow.focus()
@@ -22,7 +22,7 @@ if (!gotTheLock) {
   app.on('ready', async () => {
     const { mainWindow, load } = await import('./window.js')
     const { tray } = await import('./tray.js')
-  
+
     load(mainWindow)
   })
   
@@ -33,6 +33,7 @@ if (!gotTheLock) {
   app.setAppUserModelId('kr.cottons.instagram-desktop')
   
   app.setLoginItemSettings({
+    name: 'Instagram Desktop',
     openAtLogin: true,
     openAsHidden: true,
     path: app.getPath('exe')

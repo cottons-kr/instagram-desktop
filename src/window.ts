@@ -1,5 +1,5 @@
 import { BrowserWindow, nativeTheme, shell } from 'electron'
-import { iconPath, preloadScriptPath } from '.'
+import { iconPath, isDev, preloadScriptPath } from '.'
 
 const mainWindow = new BrowserWindow({
   width: 1600,
@@ -13,6 +13,7 @@ const mainWindow = new BrowserWindow({
     preload: preloadScriptPath,
     autoplayPolicy: 'no-user-gesture-required',
     disableHtmlFullscreenWindowResize: true,
+    devTools: isDev,
   },
   title: 'Instagram',
   titleBarOverlay: {
@@ -53,6 +54,14 @@ function load(mainWindow: BrowserWindow) {
     shell.openExternal(url)
     return { action: 'deny' }
   })
+
+  if (!isDev) {
+    mainWindow.webContents.on('devtools-opened', () => {
+      mainWindow.webContents.closeDevTools()
+    })
+  } else {
+    mainWindow.webContents.openDevTools()
+  }
 
   mainWindow.on('close', e => {
     e.preventDefault()
