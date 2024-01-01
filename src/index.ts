@@ -21,7 +21,7 @@ if (!gotTheLock) {
 
   app.on('ready', async () => {
     const { mainWindow, load } = await import('./window.js')
-    const { tray } = await import('./tray.js')
+    await import('./tray.js')
 
     load(mainWindow)
   })
